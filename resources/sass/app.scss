@@ -16,9 +16,6 @@ donot forget to add the path $fa-font-path: "../webfonts";
 @import '~@fortawesome/fontawesome-free/scss/fontawesome.scss';
 @import '~@fortawesome/fontawesome-free/scss/solid';
 
-//change color of active links in MEditor component
-$nav-tabs-link-active-bg: $white !important;  //override from node-moduls/bootstrap/_variables.scss because it take $body-bg by default
-
 //index.blade
 .counters{
     margin-right: 30px;

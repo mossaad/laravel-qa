@@ -1,6 +1,9 @@
 // Body
 $body-bg: #f8fafc;
 
+//change color of active links in MEditor component
+$nav-tabs-link-active-bg: #fff !important;  //override from node-moduls/bootstrap/_variables.scss because it take $body-bg by default
+
 // Typography
 $font-family-sans-serif: 'Raleway', sans-serif;
 $font-size-base: 0.9rem;
