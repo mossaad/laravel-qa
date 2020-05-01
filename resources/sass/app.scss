@@ -1,0 +1,102 @@
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+
+// Variables
+@import 'variables';
+$fa-font-path: "../webfonts";
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+/**
+FontAwesom
+first install (npm i @fortawesome/fontawesome-free @fortawesome/free-solid-svg-icons -D)
+import them here
+donot forget to add the path $fa-font-path: "../webfonts";
+*/
+@import '~@fortawesome/fontawesome-free/scss/fontawesome.scss';
+@import '~@fortawesome/fontawesome-free/scss/solid';
+
+//index.blade
+.counters{
+    margin-right: 30px;
+    font-size: 10px;
+    text-align: center;
+    strong{
+        display: block;
+        font-size: 2em;
+    }
+    .vote, .answer{
+        width: 60px;
+        height: 60px;
+    }
+    .status{
+        &.unanswered{
+            border: none;
+        }
+        &.answered{
+            border: 1px solid $green;
+            color: $green
+        }
+        &.answered-accepted{
+            background: $green;
+            color: $white;
+        }
+    }
+    .view{
+        margin-top: 10px;
+    }
+}
+
+.q-buttons{
+    display: -webkit-inline-box;
+}
+
+//show.blade
+.vote-controles{
+    min-width: 60px;
+    margin-right: 30px;
+    text-align: center;
+    color: $gray-700;
+
+    span, a {
+        display: block;
+    }
+
+    span{
+        &.vote-count{
+            font-size: 25px;
+        }
+        &.favorite-count{
+            font-size: 12px;
+        }
+    }
+
+    a{
+        cursor: pointer;
+        color: $gray-600;
+
+        &.off, &.off:hover{
+            color: $gray-500;
+        }
+
+        &.favorited, &.favorited:hover{
+            color: $warning;
+        }
+
+        &.vote-accepted{
+            color: $green;
+        }
+    }
+}
+
+.post{
+    padding: 20px 0;
+    &:not(:last-child){
+        border-bottom: 1px solid rgba($black, 0.1);
+    }
+}
+
+[v-cloak] {
+    display: none
+}
+
