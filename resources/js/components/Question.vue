@@ -3,7 +3,7 @@
         <div class="col-md-12">
             <div class="card">
 
-                <form class="card-body" v-if="editing" @submit.prevent="update">
+                <form class="card-body" v-show="authorize('modify', question) && editing" @submit.prevent="update">
                     <!--display the queston header-->
                     <div class="card-title">
                         <input type="text" class="form-control form-control-lg" v-model="title">
@@ -26,7 +26,7 @@
 
                 </form>
 
-                <div class="card-body" v-else>
+                <div class="card-body" v-show="!editing">
                     <!--display the queston header-->
                     <div class="card-title">
                         <div class="d-flex bd-highlight">
@@ -45,7 +45,7 @@
                         <!--Display question body-->
                         <div class="media-body">
                             <!--Display question body-->
-                            <div v-html="bodyHtml"></div>
+                            <div v-html="bodyHtml" ref="bodyHtml"></div>
 
                             <div class="row">
                                 <div class="col-md-4">
@@ -135,6 +135,10 @@ import modification from '../mixins/modification.js';
             restoreFromCache () {
                 this.body = this.beforeEditCache.body;
                 this.title = this.beforeEditCache.title;
+                /*********defined in mixins********* */
+                // const el = this.$refs.bodyHtml;
+                // if (el) Prism.highlightAllUnder(el);
+                /*********defined in mixins********* */
             },
 
             /*********defined in mixins********* */
@@ -160,7 +164,7 @@ import modification from '../mixins/modification.js';
             payload () {
                 return {
                     body: this.body,
-                    title: this.title
+                    title: this.title,
                 }
             },
 

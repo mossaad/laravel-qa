@@ -11117,8 +11117,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var markdown_it_prism__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(markdown_it_prism__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var autosize__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! autosize */ "./node_modules/autosize/dist/autosize.js");
 /* harmony import */ var autosize__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(autosize__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var prismjs_themes_prism_okaidia_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! prismjs/themes/prism-okaidia.css */ "./node_modules/prismjs/themes/prism-okaidia.css");
-/* harmony import */ var prismjs_themes_prism_okaidia_css__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(prismjs_themes_prism_okaidia_css__WEBPACK_IMPORTED_MODULE_3__);
 //
 //
 //
@@ -11158,11 +11156,12 @@ __webpack_require__.r(__webpack_exports__);
  * run to teriminal-> npm i markdown-it-prism -D
  * copy the themes from node modules by -> copy('node_modules/prismjs/themes', 'public/css/prismj-themes') in webpack.mix.js and run npm watch
  * the folder copied in public css folder
- * import them you want it in MEditor -> import 'prismjs/themes/prism-okaidia.css';
- * and call this css file in app.blade.php -> <link href="{{ asset('css/prismjs-themes/prism-okaidia.css') }}" rel="stylesheet">
+ * and call this css file in app.blade.php -> <link href="{{ asset('css/prismjs-themes/prism.css') }}" rel="stylesheet"> call any theme file you want
+ * after update to make syntax highlight work you can see in inspect that the syntax in tags pre and code
+ * you need to allowe this tags in purifier package so go to config folder and choose purifier and add this tag in html allowed 'pre[class],code[class]'
+ * after update and cancel syntax highlight doesnot work until reload the page so we need to go to Question component and register this element in restoreFromCache()
  *
  */
-
 
 
 
@@ -11182,10 +11181,9 @@ md.use(markdown_it_prism__WEBPACK_IMPORTED_MODULE_1___default.a);
   //     }
   // },
   //or
-  mounted: function mounted() {
-    // to get the full size as soon as we hit the edit button we use mounted () with updated()
-    autosize__WEBPACK_IMPORTED_MODULE_2___default()(this.$el.querySelector('textarea'));
-  },
+  // mounted () { // to get the full size as soon as we hit the edit button we use mounted () with updated()
+  //     autosize(this.$el.querySelector('textarea'));
+  // }, //because parent component (Question.vue) will not be rendered when hit edit button so we donot need mounted hook any more
   updated: function updated() {
     //autosize(document.querySelector('textarea')); javasceipt syntax or
     autosize__WEBPACK_IMPORTED_MODULE_2___default()(this.$el.querySelector('textarea')); //Vue syntax
@@ -11405,6 +11403,11 @@ __webpack_require__.r(__webpack_exports__);
     restoreFromCache: function restoreFromCache() {
       this.body = this.beforeEditCache.body;
       this.title = this.beforeEditCache.title;
+      /*********defined in mixins********* */
+      // const el = this.$refs.bodyHtml;
+      // if (el) Prism.highlightAllUnder(el);
+
+      /*********defined in mixins********* */
     },
 
     /*********defined in mixins********* */
@@ -17413,25 +17416,6 @@ exports = module.exports = __webpack_require__(/*! ../../../css-loader/lib/css-b
 
 // module
 exports.push([module.i, "code[class*=\"language-\"] a[href],\npre[class*=\"language-\"] a[href] {\n\tcursor: help;\n\ttext-decoration: none;\n}\n\ncode[class*=\"language-\"] a[href]:hover,\npre[class*=\"language-\"] a[href]:hover {\n\tcursor: help;\n\ttext-decoration: underline;\n}", ""]);
-
-// exports
-
-
-/***/ }),
-
-/***/ "./node_modules/css-loader/index.js?!./node_modules/postcss-loader/src/index.js?!./node_modules/prismjs/themes/prism-okaidia.css":
-/*!***************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader??ref--6-1!./node_modules/postcss-loader/src??ref--6-2!./node_modules/prismjs/themes/prism-okaidia.css ***!
-  \***************************************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(/*! ../../css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
-// imports
-
-
-// module
-exports.push([module.i, "/**\n * okaidia theme for JavaScript, CSS and HTML\n * Loosely based on Monokai textmate theme by http://www.monokai.nl/\n * @author ocodia\n */\n\ncode[class*=\"language-\"],\npre[class*=\"language-\"] {\n\tcolor: #f8f8f2;\n\tbackground: none;\n\ttext-shadow: 0 1px rgba(0, 0, 0, 0.3);\n\tfont-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;\n\tfont-size: 1em;\n\ttext-align: left;\n\twhite-space: pre;\n\tword-spacing: normal;\n\tword-break: normal;\n\tword-wrap: normal;\n\tline-height: 1.5;\n\n\t-moz-tab-size: 4;\n\t-o-tab-size: 4;\n\ttab-size: 4;\n\n\t-webkit-hyphens: none;\n\t-ms-hyphens: none;\n\thyphens: none;\n}\n\n/* Code blocks */\npre[class*=\"language-\"] {\n\tpadding: 1em;\n\tmargin: .5em 0;\n\toverflow: auto;\n\tborder-radius: 0.3em;\n}\n\n:not(pre) > code[class*=\"language-\"],\npre[class*=\"language-\"] {\n\tbackground: #272822;\n}\n\n/* Inline code */\n:not(pre) > code[class*=\"language-\"] {\n\tpadding: .1em;\n\tborder-radius: .3em;\n\twhite-space: normal;\n}\n\n.token.comment,\n.token.prolog,\n.token.doctype,\n.token.cdata {\n\tcolor: slategray;\n}\n\n.token.punctuation {\n\tcolor: #f8f8f2;\n}\n\n.token.namespace {\n\topacity: .7;\n}\n\n.token.property,\n.token.tag,\n.token.constant,\n.token.symbol,\n.token.deleted {\n\tcolor: #f92672;\n}\n\n.token.boolean,\n.token.number {\n\tcolor: #ae81ff;\n}\n\n.token.selector,\n.token.attr-name,\n.token.string,\n.token.char,\n.token.builtin,\n.token.inserted {\n\tcolor: #a6e22e;\n}\n\n.token.operator,\n.token.entity,\n.token.url,\n.language-css .token.string,\n.style .token.string,\n.token.variable {\n\tcolor: #f8f8f2;\n}\n\n.token.atrule,\n.token.attr-value,\n.token.function,\n.token.class-name {\n\tcolor: #e6db74;\n}\n\n.token.keyword {\n\tcolor: #66d9ef;\n}\n\n.token.regex,\n.token.important {\n\tcolor: #fd971f;\n}\n\n.token.important,\n.token.bold {\n\tfont-weight: bold;\n}\n.token.italic {\n\tfont-style: italic;\n}\n\n.token.entity {\n\tcursor: help;\n}\n", ""]);
 
 // exports
 
@@ -62693,36 +62677,6 @@ Prism.languages.js = Prism.languages.javascript;
 
 /***/ }),
 
-/***/ "./node_modules/prismjs/themes/prism-okaidia.css":
-/*!*******************************************************!*\
-  !*** ./node_modules/prismjs/themes/prism-okaidia.css ***!
-  \*******************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-
-var content = __webpack_require__(/*! !../../css-loader??ref--6-1!../../postcss-loader/src??ref--6-2!./prism-okaidia.css */ "./node_modules/css-loader/index.js?!./node_modules/postcss-loader/src/index.js?!./node_modules/prismjs/themes/prism-okaidia.css");
-
-if(typeof content === 'string') content = [[module.i, content, '']];
-
-var transform;
-var insertInto;
-
-
-
-var options = {"hmr":true}
-
-options.transform = transform
-options.insertInto = undefined;
-
-var update = __webpack_require__(/*! ../../style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
-
-if(content.locals) module.exports = content.locals;
-
-if(false) {}
-
-/***/ }),
-
 /***/ "./node_modules/process/browser.js":
 /*!*****************************************!*\
   !*** ./node_modules/process/browser.js ***!
@@ -64282,182 +64236,204 @@ var render = function() {
   return _c("div", { staticClass: "row justify-content-center" }, [
     _c("div", { staticClass: "col-md-12" }, [
       _c("div", { staticClass: "card" }, [
-        _vm.editing
-          ? _c(
-              "form",
+        _c(
+          "form",
+          {
+            directives: [
               {
-                staticClass: "card-body",
+                name: "show",
+                rawName: "v-show",
+                value: _vm.authorize("modify", _vm.question) && _vm.editing,
+                expression: "authorize('modify', question) && editing"
+              }
+            ],
+            staticClass: "card-body",
+            on: {
+              submit: function($event) {
+                $event.preventDefault()
+                return _vm.update($event)
+              }
+            }
+          },
+          [
+            _c("div", { staticClass: "card-title" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.title,
+                    expression: "title"
+                  }
+                ],
+                staticClass: "form-control form-control-lg",
+                attrs: { type: "text" },
+                domProps: { value: _vm.title },
                 on: {
-                  submit: function($event) {
-                    $event.preventDefault()
-                    return _vm.update($event)
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.title = $event.target.value
                   }
                 }
-              },
-              [
-                _c("div", { staticClass: "card-title" }, [
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.title,
-                        expression: "title"
-                      }
-                    ],
-                    staticClass: "form-control form-control-lg",
-                    attrs: { type: "text" },
-                    domProps: { value: _vm.title },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
+              })
+            ]),
+            _vm._v(" "),
+            _c("hr"),
+            _vm._v(" "),
+            _c("div", { staticClass: "media" }, [
+              _c("div", { staticClass: "media-body" }, [
+                _c(
+                  "div",
+                  { staticClass: "form-group" },
+                  [
+                    _c("m-editor", { attrs: { body: _vm.body } }, [
+                      _c("textarea", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.body,
+                            expression: "body"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { rows: "10", required: "" },
+                        domProps: { value: _vm.body },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.body = $event.target.value
+                          }
                         }
-                        _vm.title = $event.target.value
-                      }
-                    }
-                  })
+                      })
+                    ])
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-primary",
+                    attrs: { disabled: _vm.isInvalid }
+                  },
+                  [_vm._v("Update")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-outline-secondary",
+                    attrs: { type: "button" },
+                    on: { click: _vm.cancel }
+                  },
+                  [_vm._v("Cancel")]
+                )
+              ])
+            ])
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            directives: [
+              {
+                name: "show",
+                rawName: "v-show",
+                value: !_vm.editing,
+                expression: "!editing"
+              }
+            ],
+            staticClass: "card-body"
+          },
+          [
+            _c("div", { staticClass: "card-title" }, [
+              _c("div", { staticClass: "d-flex bd-highlight" }, [
+                _c("h2", { staticClass: "mr-auto bd-highlight" }, [
+                  _vm._v(_vm._s(_vm.title))
                 ]),
                 _vm._v(" "),
-                _c("hr"),
+                _vm._m(0)
+              ])
+            ]),
+            _vm._v(" "),
+            _c("hr"),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "media" },
+              [
+                _c("vote", {
+                  attrs: { model: _vm.question, name: "question" }
+                }),
                 _vm._v(" "),
-                _c("div", { staticClass: "media" }, [
-                  _c("div", { staticClass: "media-body" }, [
+                _c("div", { staticClass: "media-body" }, [
+                  _c("div", {
+                    ref: "bodyHtml",
+                    domProps: { innerHTML: _vm._s(_vm.bodyHtml) }
+                  }),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "row" }, [
+                    _c("div", { staticClass: "col-md-4" }, [
+                      _c(
+                        "div",
+                        { staticClass: "ml-auto bd-highlight q-buttons" },
+                        [
+                          _vm.authorize("modify", _vm.question)
+                            ? _c(
+                                "a",
+                                {
+                                  staticClass:
+                                    "btn btn-outline-info btn-sm mr-2",
+                                  on: {
+                                    click: function($event) {
+                                      $event.preventDefault()
+                                      return _vm.edit($event)
+                                    }
+                                  }
+                                },
+                                [_vm._v("Edit")]
+                              )
+                            : _vm._e(),
+                          _vm._v(" "),
+                          _vm.authorize("deleteQuestion", _vm.question)
+                            ? _c(
+                                "button",
+                                {
+                                  staticClass: "btn btn-outline-danger btn-sm",
+                                  on: { click: _vm.destroy }
+                                },
+                                [_vm._v("Delete")]
+                              )
+                            : _vm._e()
+                        ]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-4" }),
+                    _vm._v(" "),
                     _c(
                       "div",
-                      { staticClass: "form-group" },
+                      { staticClass: "col-md-4" },
                       [
-                        _c("m-editor", { attrs: { body: _vm.body } }, [
-                          _c("textarea", {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.body,
-                                expression: "body"
-                              }
-                            ],
-                            staticClass: "form-control",
-                            attrs: { rows: "10", required: "" },
-                            domProps: { value: _vm.body },
-                            on: {
-                              input: function($event) {
-                                if ($event.target.composing) {
-                                  return
-                                }
-                                _vm.body = $event.target.value
-                              }
-                            }
-                          })
-                        ])
+                        _c("user-info", {
+                          attrs: { model: _vm.question, label: "Asked" }
+                        })
                       ],
                       1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-primary",
-                        attrs: { disabled: _vm.isInvalid }
-                      },
-                      [_vm._v("Update")]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-outline-secondary",
-                        attrs: { type: "button" },
-                        on: { click: _vm.cancel }
-                      },
-                      [_vm._v("Cancel")]
                     )
                   ])
                 ])
-              ]
+              ],
+              1
             )
-          : _c("div", { staticClass: "card-body" }, [
-              _c("div", { staticClass: "card-title" }, [
-                _c("div", { staticClass: "d-flex bd-highlight" }, [
-                  _c("h2", { staticClass: "mr-auto bd-highlight" }, [
-                    _vm._v(_vm._s(_vm.title))
-                  ]),
-                  _vm._v(" "),
-                  _vm._m(0)
-                ])
-              ]),
-              _vm._v(" "),
-              _c("hr"),
-              _vm._v(" "),
-              _c(
-                "div",
-                { staticClass: "media" },
-                [
-                  _c("vote", {
-                    attrs: { model: _vm.question, name: "question" }
-                  }),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "media-body" }, [
-                    _c("div", {
-                      domProps: { innerHTML: _vm._s(_vm.bodyHtml) }
-                    }),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "row" }, [
-                      _c("div", { staticClass: "col-md-4" }, [
-                        _c(
-                          "div",
-                          { staticClass: "ml-auto bd-highlight q-buttons" },
-                          [
-                            _vm.authorize("modify", _vm.question)
-                              ? _c(
-                                  "a",
-                                  {
-                                    staticClass:
-                                      "btn btn-outline-info btn-sm mr-2",
-                                    on: {
-                                      click: function($event) {
-                                        $event.preventDefault()
-                                        return _vm.edit($event)
-                                      }
-                                    }
-                                  },
-                                  [_vm._v("Edit")]
-                                )
-                              : _vm._e(),
-                            _vm._v(" "),
-                            _vm.authorize("deleteQuestion", _vm.question)
-                              ? _c(
-                                  "button",
-                                  {
-                                    staticClass:
-                                      "btn btn-outline-danger btn-sm",
-                                    on: { click: _vm.destroy }
-                                  },
-                                  [_vm._v("Delete")]
-                                )
-                              : _vm._e()
-                          ]
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "col-md-4" }),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        { staticClass: "col-md-4" },
-                        [
-                          _c("user-info", {
-                            attrs: { model: _vm.question, label: "Asked" }
-                          })
-                        ],
-                        1
-                      )
-                    ])
-                  ])
-                ],
-                1
-              )
-            ])
+          ]
+        )
       ])
     ])
   ])
@@ -77617,6 +77593,29 @@ var eventBus = new Vue__WEBPACK_IMPORTED_MODULE_0__["default"]();
 
 /***/ }),
 
+/***/ "./resources/js/mixins/highlight.js":
+/*!******************************************!*\
+  !*** ./resources/js/mixins/highlight.js ***!
+  \******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var prismjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! prismjs */ "./node_modules/prismjs/prism.js");
+/* harmony import */ var prismjs__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(prismjs__WEBPACK_IMPORTED_MODULE_0__);
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  methods: {
+    highlight: function highlight() {
+      var el = this.$refs.bodyHtml;
+      if (el) prismjs__WEBPACK_IMPORTED_MODULE_0___default.a.highlightAllUnder(el);
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./resources/js/mixins/modification.js":
 /*!*********************************************!*\
   !*** ./resources/js/mixins/modification.js ***!
@@ -77626,7 +77625,10 @@ var eventBus = new Vue__WEBPACK_IMPORTED_MODULE_0__["default"]();
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _highlight__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./highlight */ "./resources/js/mixins/highlight.js");
+
 /* harmony default export */ __webpack_exports__["default"] = ({
+  mixins: [_highlight__WEBPACK_IMPORTED_MODULE_0__["default"]],
   data: function data() {
     return {
       editing: false
@@ -77664,6 +77666,8 @@ __webpack_require__.r(__webpack_exports__);
         });
 
         _this.editing = false;
+      }).then(function () {
+        return _this.highlight();
       });
     },
     payload: function payload() {},

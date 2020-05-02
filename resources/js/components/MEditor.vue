@@ -37,14 +37,15 @@
  * run to teriminal-> npm i markdown-it-prism -D
  * copy the themes from node modules by -> copy('node_modules/prismjs/themes', 'public/css/prismj-themes') in webpack.mix.js and run npm watch
  * the folder copied in public css folder
- * import them you want it in MEditor -> import 'prismjs/themes/prism-okaidia.css';
- * and call this css file in app.blade.php -> <link href="{{ asset('css/prismjs-themes/prism-okaidia.css') }}" rel="stylesheet">
+ * and call this css file in app.blade.php -> <link href="{{ asset('css/prismjs-themes/prism.css') }}" rel="stylesheet"> call any theme file you want
+ * after update to make syntax highlight work you can see in inspect that the syntax in tags pre and code
+ * you need to allowe this tags in purifier package so go to config folder and choose purifier and add this tag in html allowed 'pre[class],code[class]'
+ * after update and cancel syntax highlight doesnot work until reload the page so we need to go to Question component and register this element in restoreFromCache()
  *
  */
     import MarkdownIt from 'markdown-it';
     import prism from 'markdown-it-prism';
     import autosize from 'autosize';
-    import 'prismjs/themes/prism-okaidia.css';
 
     const md = new MarkdownIt();
     md.use(prism);
@@ -66,9 +67,9 @@
         // },
 
         //or
-        mounted () { // to get the full size as soon as we hit the edit button we use mounted () with updated()
-            autosize(this.$el.querySelector('textarea'));
-        },
+        // mounted () { // to get the full size as soon as we hit the edit button we use mounted () with updated()
+        //     autosize(this.$el.querySelector('textarea'));
+        // }, //because parent component (Question.vue) will not be rendered when hit edit button so we donot need mounted hook any more
 
         updated () {
             //autosize(document.querySelector('textarea')); javasceipt syntax or
