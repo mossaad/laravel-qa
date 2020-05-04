@@ -3,19 +3,19 @@
         <div class="card-header">
             <ul class="nav nav-tabs card-header-tabs">
                 <li class="nav-item">
-                    <a class="nav-link active" data-toggle="tab" href="#write">Write</a>
+                    <a class="nav-link active" data-toggle="tab" :href="tabId('write', '#')">Write</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="#preview">Preview</a>
+                    <a class="nav-link" data-toggle="tab" :href="tabId('preview', '#')">Preview</a>
                 </li>
             </ul>
         </div>
         <div class="card-body tab-content">
-            <div class="tab-pane active" id="write">
+            <div class="tab-pane active" :id="tabId('write')">
                 <!--slot tag is avue component used instead of textarea to emit events to send data from child component to parent component-->
                 <slot></slot>
             </div>
-            <div class="tab-pane" v-html="preview" id="preview"></div>
+            <div class="tab-pane" v-html="preview" :id="tabId('preview')"></div>
         </div>
     </div>
 </template>
@@ -41,6 +41,7 @@
  * after update to make syntax highlight work you can see in inspect that the syntax in tags pre and code
  * you need to allowe this tags in purifier package so go to config folder and choose purifier and add this tag in html allowed 'pre[class],code[class]'
  * after update and cancel syntax highlight doesnot work until reload the page so we need to go to Question component and register this element in restoreFromCache()
+ * to apply Prism.highlightAllUnder(element, async, callback) from https://prismjs.com/extending.html#api
  *
  */
     import MarkdownIt from 'markdown-it';
@@ -51,11 +52,17 @@
     md.use(prism);
 
     export default {
-        props: ['body'],
+        props: ['body', 'name'],
 
         computed: {
             preview () {
                 return md.render(this.body);
+            }
+        },
+
+        methods: {
+            tabId (tabName, hash = '') {
+                return `${hash}${tabName}${this.name}`;
             }
         },
 

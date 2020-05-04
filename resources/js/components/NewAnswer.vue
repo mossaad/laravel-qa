@@ -10,7 +10,9 @@
                     <hr>
                     <form @submit.prevent="create">
                         <div class="form-group">
-                            <textarea class="form-control" rows="7" required v-model="body" name="body"></textarea>
+                            <m-editor :body="body" name="new-answer">
+                                <textarea class="form-control" rows="7" required v-model="body" name="body"></textarea>
+                            </m-editor>
                         </div>
                         <div class="form-group">
                             <button type="submit" :disabled="isInvalid" class="btn btn-lg btn-outline-primary">Submit</button>
@@ -23,8 +25,11 @@
 </template>
 
 <script>
+import MEditor from './MEditor.vue';
 export default {
     props: ['questionId'],
+
+    components: {MEditor},
 
     methods: {
         create () {

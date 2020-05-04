@@ -15,7 +15,7 @@
                         <!--Display question body-->
                         <div class="media-body">
                             <div class="form-group">
-                                <m-editor :body="body">
+                                <m-editor :body="body" :name="uniqueName">
                                     <textarea class="form-control" v-model="body" rows="10" required></textarea>
                                 </m-editor>
                             </div>
@@ -74,9 +74,9 @@
 </template>
 
 <script>
-import Vote from './Vote.vue';
-import UserInfo from './UserInfo.vue';
-import MEditor from './MEditor.vue';
+// import Vote from './Vote.vue';           //moved to modification mixine
+// import UserInfo from './UserInfo.vue';   //moved to modification mixine
+// import MEditor from './MEditor.vue';     //moved to modification mixine
 import modification from '../mixins/modification.js';
 
     export default {
@@ -84,7 +84,7 @@ import modification from '../mixins/modification.js';
 
         mixins: [modification],
 
-        components: { Vote, UserInfo, MEditor },
+        // components: { Vote, UserInfo, MEditor },  //moved to modification mixine
 
         data() {
             return {
@@ -104,6 +104,10 @@ import modification from '../mixins/modification.js';
 
             endpoint () {
                 return `/questions/${this.id}`;
+            },
+
+            uniqueName () {
+                return `question-${this.id}`;
             }
         },
 

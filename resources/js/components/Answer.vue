@@ -6,17 +6,19 @@
         <!--Display answer content-->
         <div class="media-body">
 
-            <form v-if="editing" @submit.prevent="update">
+            <form v-show="authorize('modify', answer) && editing" @submit.prevent="update">
                 <div class="form-group">
-                    <textarea class="form-control" v-model="body" rows="10" required></textarea>
+                    <m-editor :body="body" :name="uniqueName">
+                        <textarea class="form-control" v-model="body" rows="10" required></textarea>
+                    </m-editor>
                 </div>
                 <button class="btn btn-primary" :disabled="isInvalid">Update</button>
                 <button class="btn btn-outline-secondary" type="button" @click="cancel">Cancel</button>
             </form>
 
-            <div v-else>
+            <div v-show="!editing">
                 <!--Display answer body-->
-                <div v-html="bodyHtml"></div>
+                <div :id="uniqueName" v-html="bodyHtml" ref="bodyHtml"></div>
 
                 <div class="row">
                     <div class="col-md-4">
@@ -43,8 +45,9 @@
 <script>
 //axios.defaults.headers.common['X-CSRF-TOKEN'] = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
 
-import Vote from './Vote.vue';
-import UserInfo from './UserInfo.vue';
+// import Vote from './Vote.vue';           //moved to modification mixine
+// import UserInfo from './UserInfo.vue';   //moved to modification mixine
+// import MEditor from './MEditor.vue';     //moved to modification mixine
 import modification from '../mixins/modification.js';
 
 export default {
@@ -53,7 +56,7 @@ export default {
 
     mixins: [modification],
 
-    components: { Vote, UserInfo },
+    // components: { Vote, UserInfo, MEditor },  //moved to modification mixine
 
     data () {
         return {
@@ -185,6 +188,10 @@ export default {
 
         endpoint () {
             return `/questions/${this.questionId}/answers/${this.id}` ; //responce in AnswersController
+        },
+
+        uniqueName () {
+            return `answer-${this.id}`;
         }
     }
 }

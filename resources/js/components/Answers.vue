@@ -27,14 +27,18 @@
 <script>
 import Answer from './Answer.vue';
 import NewAnswer from './NewAnswer.vue';
+import highlight from '../mixins/highlight.js';
 
     export default {
         props: ['question'],
+
+        mixins: [highlight],
 
         data () {
             return {
                 questionId: this.question.id,
                 count: this.question.answers_count,
+                answersIds: [],
                 answers: [],
                 nextUrl: null
             }
@@ -46,9 +50,13 @@ import NewAnswer from './NewAnswer.vue';
         },
 
         methods: {
+            
             add (answer) {
                 this.answers.push(answer);
                 this.count++;
+                this.$nextTick(() => { //used to delay highlight method until pushing the new answer to answers array to the dom
+                    this.highlight(`answer-${answer.id}`);
+                })
             },
 
             remove (index) {
@@ -59,10 +67,24 @@ import NewAnswer from './NewAnswer.vue';
             },
 
             fetch (endpoint) {
+
+                this.answersIds = [];//before make ajax call reset answersIds array to make sure that every time make ajax call we donot have duplicate answer ids
+
                 axios.get(endpoint)
                 .then(({data}) => {  //extract or get data property from response object by using ({data})
+
+                    this.answersIds = data.data.map(a => a.id); // collect all answers ids by map method and send them to answersIds array
+
                     this.answers.push(...data.data); //to merge data property array with answers array ussing es6 by (...)
+
                     this.nextUrl = data.next_page_url; //
+                })
+                .then(() => {
+
+                    //get back answers from ajax request and loap each one of them and call highlight method for evry single answer using answersIds which hold all answers ids that called back from ajax request
+                    this.answersIds.forEach(id => {
+                        this.highlight(`answer-${id}`);
+                    });
                 })
             }
         },
